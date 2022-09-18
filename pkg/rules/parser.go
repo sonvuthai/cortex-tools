@@ -8,37 +8,20 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/grafana/loki/pkg/ruler"
-	"github.com/prometheus/prometheus/pkg/rulefmt"
 	log "github.com/sirupsen/logrus"
 	yaml "gopkg.in/yaml.v3"
 )
 
-const (
-	CortexBackend = "cortex"
-	LokiBackend   = "loki"
-)
-
 var (
-	errFileReadError  = errors.New("file read error")
-	errInvalidBackend = errors.New("invalid backend type")
+	errFileReadError = errors.New("file read error")
 )
 
 // ParseFiles returns a formatted set of prometheus rule groups
-func ParseFiles(backend string, files []string) (map[string]RuleNamespace, error) {
+func ParseFiles(files []string) (map[string]RuleNamespace, error) {
 	ruleSet := map[string]RuleNamespace{}
-	var parseFn func(f string) ([]RuleNamespace, []error)
-	switch backend {
-	case CortexBackend:
-		parseFn = Parse
-	case LokiBackend:
-		parseFn = ParseLoki
-	default:
-		return nil, errInvalidBackend
-	}
 
 	for _, f := range files {
-		nss, errs := parseFn(f)
+		nss, errs := Parse(f)
 		for _, err := range errs {
 			log.WithError(err).WithField("file", f).Errorln("unable parse rules file")
 			return nil, errFileReadError
@@ -100,44 +83,6 @@ func ParseBytes(content []byte) ([]RuleNamespace, []error) {
 		}
 
 		nss = append(nss, ns)
-	}
-	return nss, nil
-}
-
-func ParseLoki(f string) ([]RuleNamespace, []error) {
-	content, err := loadFile(f)
-	if err != nil {
-		log.WithError(err).WithField("file", f).Errorln("unable load rules file")
-		return nil, []error{errFileReadError}
-	}
-
-	decoder := yaml.NewDecoder(bytes.NewReader(content))
-	decoder.KnownFields(true)
-
-	var nss []RuleNamespace
-	for {
-		var ns RuleNamespace
-		err := decoder.Decode(&ns)
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			return nil, []error{err}
-		}
-
-		// the upstream loki validator only validates the rulefmt rule groups,
-		// not the remote write configs this type attaches.
-		var grps []rulefmt.RuleGroup
-		for _, g := range ns.Groups {
-			grps = append(grps, g.RuleGroup)
-		}
-
-		if errs := ruler.ValidateGroups(grps...); len(errs) > 0 {
-			return nil, errs
-		}
-
-		nss = append(nss, ns)
-
 	}
 	return nss, nil
 }
