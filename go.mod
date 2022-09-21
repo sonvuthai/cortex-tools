@@ -8,7 +8,7 @@ require (
 	github.com/alecthomas/chroma v0.7.0
 	github.com/alecthomas/repr v0.0.0-20181024024818-d37bc2a10ba1 // indirect
 	github.com/alecthomas/units v0.0.0-20210912230133-d1bdfacee922
-	github.com/cortexproject/cortex v1.10.1-0.20211104100946-3f329a21cad4
+	github.com/cortexproject/cortex v1.11.1
 	github.com/dlclark/regexp2 v1.2.0 // indirect
 	github.com/go-kit/log v0.2.0
 	github.com/gocql/gocql v0.0.0-20200526081602-cd04bd7f22a7
@@ -24,7 +24,7 @@ require (
 	github.com/google/go-github/v32 v32.1.0
 	github.com/gorilla/mux v1.8.0
 	github.com/grafana-tools/sdk v0.0.0-20220203092117-edae16afa87b
-	github.com/grafana/dskit v0.0.0-20211103155626-4e784973d341
+	github.com/grafana/dskit v0.0.0-20210908150159-fcf48cb19aa4
 	github.com/mitchellh/colorstring v0.0.0-20190213212951-d06e56a500db
 	github.com/oklog/ulid v1.3.1
 	github.com/opentracing-contrib/go-stdlib v1.0.0
@@ -32,8 +32,8 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/alertmanager v0.23.1-0.20210914172521-e35efbddb66a
 	github.com/prometheus/client_golang v1.11.0
-	github.com/prometheus/common v0.31.1
-	github.com/prometheus/prometheus v1.8.2-0.20211011171444-354d8d2ecfac
+	github.com/prometheus/common v0.30.0
+	github.com/prometheus/prometheus v1.8.2-0.20210914090109-37468d88dce8
 	github.com/sirupsen/logrus v1.8.1
 	github.com/stretchr/testify v1.7.0
 	github.com/thanos-io/thanos v0.22.0
