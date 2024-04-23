@@ -3,7 +3,7 @@ package gcp
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
+	"io"
 
 	"cloud.google.com/go/storage"
 	"github.com/cortexproject/cortex/pkg/chunk"
@@ -72,7 +72,7 @@ func (s *gcsScanner) Scan(ctx context.Context, req chunkTool.ScanRequest, filter
 			return errors.WithStack(err)
 		}
 
-		buf, err := ioutil.ReadAll(reader)
+		buf, err := io.ReadAll(reader)
 		reader.Close()
 
 		if err != nil {
