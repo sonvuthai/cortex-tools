@@ -1,6 +1,6 @@
 module github.com/cortexproject/cortex-tools
 
-go 1.22
+go 1.22.2
 
 require (
 	cloud.google.com/go/bigtable v1.3.0
