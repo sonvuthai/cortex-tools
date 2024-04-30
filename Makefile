@@ -6,7 +6,7 @@ IMAGE_TAG := $(shell ./tools/image-tag)
 GIT_REVISION := $(shell git rev-parse --short HEAD)
 GIT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 GO_FLAGS := -mod=vendor -ldflags "-extldflags \"-static\" -s -w -X $(VPREFIX).Branch=$(GIT_BRANCH) -X $(VPREFIX).Version=$(IMAGE_TAG) -X $(VPREFIX).Revision=$(GIT_REVISION)" -tags netgo
-APP_NAMES := benchtool blockgen blockscopy chunktool cortextool deserializer e2ealerting logtool rules-migrator sim
+APP_NAMES := benchtool blockgen blockscopy cortextool deserializer e2ealerting logtool rules-migrator sim
 
 all: $(APP_NAMES)
 images: $(addsuffix -image, $(APP_NAMES))
