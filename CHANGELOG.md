@@ -2,7 +2,7 @@
 
 Order should be `CHANGE`, `FEATURE`, `ENHANCEMENT`, and `BUGFIX`
 
-## unreleased/master
+## v0.13.2
 * [CHANGE] Upgrade to v1.13.2
 * [CHANGE] Updates version of Go to 1.22 and Alpine to 3.19.1 in Dockerfiles
 * [FEATURE] Make rulerAPI Path configurable
