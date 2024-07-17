@@ -30,6 +30,7 @@ type WriteBenchConfig struct {
 	BasicAuthUsername string `yaml:"basic_auth_username"`
 	BasicAuthPasword  string `yaml:"basic_auth_password"`
 	ProxyURL          string `yaml:"proxy_url"`
+	Path              string `yaml: "path"`
 }
 
 func (cfg *WriteBenchConfig) RegisterFlags(f *flag.FlagSet) {
@@ -38,6 +39,7 @@ func (cfg *WriteBenchConfig) RegisterFlags(f *flag.FlagSet) {
 	f.StringVar(&cfg.BasicAuthUsername, "bench.write.basic-auth-username", "", "Set the basic auth username on remote write requests.")
 	f.StringVar(&cfg.BasicAuthPasword, "bench.write.basic-auth-password", "", "Set the basic auth password on remote write requests.")
 	f.StringVar(&cfg.ProxyURL, "bench.write.proxy-url", "", "Set the HTTP proxy URL to use on remote write requests.")
+	f.StringVar(&cfg.Path, "bench.write.path", "/api/v1/push", "Set the target path for remote write requests.")
 }
 
 type WriteBenchmarkRunner struct {
@@ -108,7 +110,7 @@ func (w *WriteBenchmarkRunner) getRandomWriteClient() (*writeClient, error) {
 	var exists bool
 
 	if cli, exists = w.clientPool[pick]; !exists {
-		u, err := url.Parse("http://" + pick + "/api/v1/push")
+		u, err := url.Parse("http://" + pick + w.cfg.Path)
 		if err != nil {
 			return nil, err
 		}
